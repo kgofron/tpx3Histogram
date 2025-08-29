@@ -27,7 +27,10 @@
 #include <errno.h>
 
 // JSON parsing
-#include <json-c/json.h>
+#include <nlohmann/json.hpp>
+
+// Use nlohmann namespace for convenience
+using json = nlohmann::json;
 
 // Constants
 constexpr double TPX3_TDC_CLOCK_PERIOD_SEC = (1.5625 / 6.0) * 1e-9;
@@ -551,28 +554,20 @@ private:
      */
     bool process_data_line(char* line_buffer, char* newline_pos, size_t total_read) {
         // Parse JSON
-        struct json_object* json = json_tokener_parse(line_buffer);
-        if (!json) {
+        json j;
+        try {
+            j = json::parse(line_buffer);
+        } catch (const json::parse_error& e) {
+            std::cerr << "JSON parse error: " << e.what() << std::endl;
             return true;  // Continue processing
         }
 
         try {
             // Extract header information
-            struct json_object *frame_number_obj, *bin_size_obj, *bin_width_obj, *bin_offset_obj;
-            
-            if (!json_object_object_get_ex(json, "frameNumber", &frame_number_obj) ||
-                !json_object_object_get_ex(json, "binSize", &bin_size_obj) ||
-                !json_object_object_get_ex(json, "binWidth", &bin_width_obj) ||
-                !json_object_object_get_ex(json, "binOffset", &bin_offset_obj)) {
-                
-                json_object_put(json);
-                return true;  // Continue processing
-            }
-
-            int frame_number = json_object_get_int(frame_number_obj);
-            int bin_size = json_object_get_int(bin_size_obj);
-            int bin_width = json_object_get_int(bin_width_obj);
-            int bin_offset = json_object_get_int(bin_offset_obj);
+            int frame_number = j["frameNumber"];
+            int bin_size = j["binSize"];
+            int bin_width = j["binWidth"];
+            int bin_offset = j["binOffset"];
 
             // Create frame histogram
             HistogramData frame_histogram(bin_size, HistogramData::DataType::FRAME_DATA);
@@ -601,7 +596,6 @@ private:
                     binary_needed - binary_read)) {
                     
                     std::cerr << "Failed to read binary data" << std::endl;
-                    json_object_put(json);
                     return false;
                 }
             }
@@ -634,7 +628,6 @@ private:
             std::cerr << "Error processing frame: " << e.what() << std::endl;
         }
 
-        json_object_put(json);
         return true;
     }
 
