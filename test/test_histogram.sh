@@ -6,27 +6,27 @@
 echo "=== TPX3 Histogram Program Test ==="
 echo
 
-# Check if program exists
-if [ ! -f "./tpx3_histogram" ]; then
+# Check if program exists (look in parent directory)
+if [ ! -f "../tpx3_histogram" ]; then
     echo "Error: Program not found. Please build it first with 'make'"
     exit 1
 fi
 
-# Check if data directory exists
-if [ ! -d "./data" ]; then
+# Check if data directory exists (look in parent directory)
+if [ ! -d "../data" ]; then
     echo "Creating data directory..."
-    make setup
+    cd .. && make setup && cd test
 fi
 
 echo "Program built successfully!"
-echo "Executable: ./tpx3_histogram"
-echo "Data directory: ./data/"
+echo "Executable: ../tpx3_histogram"
+echo "Data directory: ../data/"
 echo
 
 echo "Available commands:"
-echo "  ./tpx3_histogram --help          # Show help"
-echo "  ./tpx3_histogram                  # Run with defaults (localhost:8451)"
-echo "  ./tpx3_histogram --host 192.168.1.100 --port 9000  # Custom host/port"
+echo "  ../tpx3_histogram --help          # Show help"
+echo "  ../tpx3_histogram                  # Run with defaults (localhost:8451)"
+echo "  ../tpx3_histogram --host 192.168.1.100 --port 9000  # Custom host/port"
 echo
 
 echo "Makefile targets:"
@@ -41,7 +41,7 @@ echo
 
 # Test help functionality
 echo "Testing help functionality:"
-./tpx3_histogram --help
+../tpx3_histogram --help
 echo
 
 echo "Test completed successfully!"
