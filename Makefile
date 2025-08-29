@@ -1,9 +1,9 @@
 # Makefile for TPX3 Histogram C++ Program
-# Prerequisites: apt-get install libjson-c-dev build-essential
+# Prerequisites: nlohmann/json (header-only library)
 
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -g
-LDFLAGS = -ljson-c -pthread
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -g -I/usr/include/nlohmann
+LDFLAGS = -pthread
 
 # Target executable
 TARGET = tpx3_histogram
@@ -35,12 +35,12 @@ clean:
 install-deps:
 	@echo "Installing dependencies..."
 	sudo apt-get update
-	sudo apt-get install -y libjson-c-dev build-essential
+	sudo apt-get install -y nlohmann-json3-dev build-essential
 
 # Install dependencies (CentOS/RHEL/Fedora)
 install-deps-yum:
 	@echo "Installing dependencies..."
-	sudo yum install -y libjson-c-devel gcc-c++ make
+	sudo yum install -y nlohmann-json-devel gcc-c++ make
 
 # Create data directory
 setup:
