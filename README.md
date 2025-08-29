@@ -12,6 +12,7 @@ A modern C++ implementation of the TPX3 Time-of-Flight histogram processor, rewr
 - **Command Line Interface**: Configurable host and port parameters
 - **Real-time Processing**: Processes incoming histogram data frames in real-time
 - **Running Sum**: Maintains and updates a running sum histogram
+- **Modern JSON**: Uses nlohmann/json for robust JSON parsing
 
 ## Architecture
 
@@ -27,12 +28,12 @@ The program is structured into several key classes:
 ### Ubuntu/Debian
 ```bash
 sudo apt-get update
-sudo apt-get install libjson-c-dev build-essential
+sudo apt-get install nlohmann-json3-dev build-essential
 ```
 
 ### CentOS/RHEL/Fedora
 ```bash
-sudo yum install libjson-c-devel gcc-c++ make
+sudo yum install nlohmann-json-devel gcc-c++ make
 ```
 
 ## Building
@@ -116,6 +117,7 @@ Followed by binary histogram data (32-bit integers in network byte order).
 6. **Modern C++ Features**: Range-based for loops, auto, constexpr
 7. **Thread Safety**: Mutex protection for shared data
 8. **Cleaner API**: Well-defined class interfaces and encapsulation
+9. **Modern JSON**: Uses nlohmann/json instead of json-c for better C++ integration
 
 ### Performance
 
@@ -127,7 +129,7 @@ Followed by binary histogram data (32-bit integers in network byte order).
 ## Troubleshooting
 
 ### Build Issues
-- Ensure `libjson-c-dev` is installed
+- Ensure `nlohmann-json3-dev` is installed
 - Check C++17 compiler support (`g++ --version`)
 - Verify all dependencies are properly installed
 
