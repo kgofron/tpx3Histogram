@@ -553,6 +553,11 @@ private:
      * @return true if successful, false to exit
      */
     bool process_data_line(char* line_buffer, char* newline_pos, size_t total_read) {
+        // Skip empty lines
+        if (strlen(line_buffer) == 0) {
+            return true;
+        }
+        
         // Parse JSON
         json j;
         try {
