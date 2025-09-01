@@ -21,6 +21,8 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
 	@echo "Build complete: $(TARGET)"
+	@rm -f $(OBJECTS)
+	@echo "Object files removed"
 
 # Compile source files to object files
 %.o: %.cpp
